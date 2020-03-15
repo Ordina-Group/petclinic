@@ -17,6 +17,7 @@ pipeline {
       
       stage('Publish Snapshot') {
         steps {
+            sh 'echo ok'
         }
       }
    }
