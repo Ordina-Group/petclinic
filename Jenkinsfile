@@ -15,7 +15,7 @@ pipeline {
         }
       }
       
-      stage('Publish Snapshot') {
+      stage('Copy artifact to s3') {
         steps {
             sh 'echo ok'
         }
