@@ -5,13 +5,7 @@ pipeline {
     stages {
       stage('Build') { 
         steps {
-            sh 'mvn --errors --update-snapshots install -DskipTests'
-        }
-      }
-      
-      stage('Test') { 
-        steps {
-            sh 'mvn --errors clean test'
+            sh 'mvn clean install'
         }
       }
       
