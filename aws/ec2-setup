@@ -1,0 +1,6 @@
+#!/bin/bash
+sudo yum update -y
+sudo yum install java-1.8.0 -y
+sudo aws s3 cp s3://jworks-yp-releases/bas-petclinic.jar /app.jar
+sudo chmod +x /app.jar
+java -jar /app.jar &
