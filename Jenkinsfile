@@ -11,7 +11,7 @@ pipeline {
       
       stage('Copy artifact to s3') {
         steps {
-            sh 'echo ok'
+            sh 'aws s3 cp target/*jar s3://jworks-yp-releases/bas-petclinic.jar'
         }
       }
    }
