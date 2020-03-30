@@ -12,7 +12,7 @@ Resources:
           DeviceIndex: "0"
           SubnetId: subnet-045f773dd295ba4ea
           GroupSet:
-            - sg-0518735c186e87a70
+            - !Ref MySecurityGroup
       IamInstanceProfile: "YPDeployRole"
       Tags:
         - Key: "Name"
