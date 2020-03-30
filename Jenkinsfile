@@ -1,7 +1,9 @@
 
 pipeline {
     agent any
-    
+    parameters { 
+      booleanParam(name: 'RUN_CLOUDFORMATION', defaultValue: false, description: 'Run the cloudformation stack')
+    }
     environment { 
       s3CFReleaseBucket = "jworks-cf-releases"
       stackName = "bas-petclinic"
@@ -28,8 +30,8 @@ pipeline {
 
       stage('Create CF stack') { 
           when {
-            expression  {
-                sh 'aws cloudformation describe-stacks --region eu-west-1 --stack-name ${stackName}'
+            expression { 
+              params.RUN_CLOUDFORMATION == true
             }
           }
           steps { 
@@ -41,16 +43,6 @@ pipeline {
             sh "aws cloudformation wait stack-create-complete --stack-name ${stackName}"
           }
       }
-      stage('Update CF stack') { 
-          when {
-            expression  {
-                sh 'aws cloudformation describe-stacks --stack-name ${stackName} && echo $?' == 0
-            }
-          }
-          steps { 
-            sh "aws cloudformation update-stack --region eu-west-1 \
-                --stack-name ${stackName} "
-          }
-      }
+
    }
 }
