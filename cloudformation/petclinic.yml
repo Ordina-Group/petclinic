@@ -13,6 +13,7 @@ Resources:
         - AssociatePublicIpAddress: true
           DeviceIndex: "0"
           SubnetId: subnet-045f773dd295ba4ea
+      IamInstanceProfile: "YPDeployRole"
       Tags:
         - Key: "Name"
           Value: "CF-EC2-Bas"
