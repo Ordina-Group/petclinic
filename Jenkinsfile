@@ -1,6 +1,11 @@
 
 pipeline {
     agent any
+    
+    environment { 
+      s3CFReleaseBucket = "jworks-cf-releases"
+      stackName = "bas-petclinic"
+    }
 
     stages {
       stage('Build') { 
@@ -15,7 +20,21 @@ pipeline {
         }
       }
 
-      stage('Deploy EC2 server') { 
+      stage('Copy cloudformation to S3') { 
+        steps {
+          sh "aws s3 cp cloudformation/petclinic.yml s3://${s3CFReleaseBucket}/${stackName}.yml"
+        }
+      }
+
+      stage('Deploy EC2 server with cloudformation') { 
+          steps { 
+            sh "aws cloudformation create-stack --region eu-west-1 \
+                --stack-name ${stackName} \
+                --capabilities CAPABILITY_AUTO_EXPAND CAPABILITY_IAM\
+                --template-url https://${s3CFReleaseBucket}.s3-eu-west-1.amazonaws.com/${stackName}.yml \
+                --tags Key=Environment,Value=Dev Key=Owner,Value=JWorks"
+            sh "aws cloudformation wait stack-create-complete --stack-name ${stackName}"
+          }
           steps { 
               sh "aws ec2 run-instances --count 1 --image-id ami-04d5cc9b88f9d1d39 \
                   --instance-type t2.micro --key-name yp-test --security-group-ids sg-0518735c186e87a70 \
