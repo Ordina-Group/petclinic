@@ -29,7 +29,7 @@ pipeline {
       stage('Create CF stack') { 
           when {
             expression  {
-                sh "aws cloudformation describe-stacks --region eu-west-1 --stack-name bas-petclinic"
+                sh "aws cloudformation describe-stacks --region eu-west-1 --stack-name ${env.stackName} "
             }
           }
           steps { 
