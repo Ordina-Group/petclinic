@@ -6,7 +6,7 @@ Resources:
     Properties:
       InstanceType: t2.micro
       ImageId: ami-0ec1ba09723e5bfac
-      KeyName: yp-test
+      KeyName: yp-central-kp
       NetworkInterfaces:
         - AssociatePublicIpAddress: true
           DeviceIndex: "0"
