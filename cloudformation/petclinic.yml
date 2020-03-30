@@ -33,7 +33,13 @@ Resources:
             yum:
               java-1.8.0: []
           commands:
+            testCmd:
+              command: "echo helo > /var/log/test"
             copyFromS3:
               command: "aws s3 cp s3://jworks-yp-releases/bas-petclinic.jar /app.jar"
             runApp:
               command: "java -jar /app.jar"
+Outputs:
+  MyEc2Url:
+    Description: "Public URL of the EC2 server created"
+    Value: !GetAtt MyEc2Server.PublicDnsName
