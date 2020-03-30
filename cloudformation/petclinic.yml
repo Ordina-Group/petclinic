@@ -20,11 +20,11 @@ Resources:
         - Key: "Environment"
           Value: "Dev"
       UserData:
-        Fn::Base64:
-          !Sub | 
-            # !/bin/bash -xe
-            yum update -y aws-cfn-bootstrap
-            /opt/aws/bin/cfn-init -s ${AWS::StackId} -r MyEc2Server --region ${AWS::Region} || error_exit 'Failed to run cfn-init'
+        'Fn::Base64': !Sub |
+          #!/bin/bash -ex
+          # run some commands
+          yum update -y aws-cfn-bootstrap
+          /opt/aws/bin/cfn-signal --exit-code 0 --resource MyEc2Server --region ${AWS::Region} --stack ${AWS::StackName}
     Metadata:
       Comment: Install java and download our artifact from S3
       AWS::Cloudformation::Init:
