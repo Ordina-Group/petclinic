@@ -34,8 +34,6 @@ Resources:
             yum:
               java-1.8.0-openjdk-devel: []
           commands:
-            testCmd:
-              command: "echo helo > /var/log/test"
             copyFromS3:
               command: "aws s3 cp s3://jworks-yp-releases/bas-petclinic.jar /app.jar"
             runApp:
