@@ -35,7 +35,7 @@ pipeline {
             }
           }
           steps { 
-            sh "aws cloudformation create-stack --region eu-west-1 \
+            sh "aws cloudformation create-stack --region eu-central-1 \
                 --stack-name ${stackName} \
                 --capabilities CAPABILITY_AUTO_EXPAND CAPABILITY_IAM\
                 --template-url https://${s3CFReleaseBucket}.s3-eu-west-1.amazonaws.com/${stackName}.yml \
