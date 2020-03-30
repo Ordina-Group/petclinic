@@ -21,7 +21,7 @@ Resources:
           Value: "Dev"
       UserData:
         Fn::Base64:
-          !Sub: | 
+          !Sub | 
             # !/bin/bash -xe
             yum update -y aws-cfn-bootstrap
             /opt/aws/bin/cfn-init -s ${AWS::StackId} -r MyEc2Server --region ${AWS::Region} || error_exit 'Failed to run cfn-init'
