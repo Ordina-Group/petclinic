@@ -7,12 +7,12 @@ Resources:
       InstanceType: t2.micro
       ImageId: ami-04d5cc9b88f9d1d39
       KeyName: yp-test
-      SecurityGroupIds:
-        - sg-0518735c186e87a70
       NetworkInterfaces:
         - AssociatePublicIpAddress: true
           DeviceIndex: "0"
           SubnetId: subnet-045f773dd295ba4ea
+          GroupSet:
+            - sg-0518735c186e87a70
       IamInstanceProfile: "YPDeployRole"
       Tags:
         - Key: "Name"
@@ -25,7 +25,6 @@ Resources:
             # !/bin/bash -xe
             yum update -y aws-cfn-bootstrap
             /opt/aws/bin/cfn-init -s ${AWS::StackId} -r MyEc2Server --region ${AWS::Region} || error_exit 'Failed to run cfn-init'
-
     Metadata:
       Comment: Install java and download our artifact from S3
       AWS::Cloudformation::Init:
