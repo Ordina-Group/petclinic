@@ -40,6 +40,21 @@ Resources:
               command: "aws s3 cp s3://jworks-yp-releases/bas-petclinic.jar /app.jar"
             runApp:
               command: "java -jar /app.jar"
+  MySecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "My sg from cloudformation"
+      GroupName: "cf-bas-sg"
+      VpcId: vpc-a0ced2c9
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
 Outputs:
   MyEc2Url:
     Description: "Public URL of the EC2 server created"
