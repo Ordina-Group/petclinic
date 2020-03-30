@@ -26,7 +26,12 @@ pipeline {
         }
       }
 
-      stage('Deploy EC2 server with cloudformation') { 
+      stage('Create CF stack') { 
+          when {
+            expression  {
+                sh "aws cloudformation describe-stacks --region eu-west-1 --stack-name ${stackName} && echo $?" != 0
+            }
+          }
           steps { 
             sh "aws cloudformation create-stack --region eu-west-1 \
                 --stack-name ${stackName} \
@@ -34,6 +39,17 @@ pipeline {
                 --template-url https://${s3CFReleaseBucket}.s3-eu-west-1.amazonaws.com/${stackName}.yml \
                 --tags Key=Environment,Value=Dev Key=Owner,Value=JWorks"
             sh "aws cloudformation wait stack-create-complete --stack-name ${stackName}"
+          }
+      }
+      stage('Update CF stack') { 
+          when {
+            expression  {
+                sh "aws cloudformation describe-stacks --stack-name ${stackName} && echo $?" == 0
+            }
+          }
+          steps { 
+            sh "aws cloudformation update-stack --region eu-west-1 \
+                --stack-name ${stackName} "
           }
       }
    }
